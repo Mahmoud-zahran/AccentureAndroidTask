@@ -1,0 +1,32 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    >
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/white"
+        android:orientation="vertical"
+        android:weightSum="4"
+        tools:context=".activity.DataShowActivity">
+        <TextView
+            android:id="@+id/DataShowActivity_Txt"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="12dp"
+            android:layout_weight="0.3"
+            android:paddingBottom="8dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:text="test Ui Text View"
+            android:textColor="@color/buttonBorderColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+</ScrollView>
