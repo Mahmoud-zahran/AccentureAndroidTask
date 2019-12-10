@@ -28,7 +28,7 @@ import com.example.accentureandroidtask.daggerNeededFiles.module.MainActivityCon
 import com.example.accentureandroidtask.daggerNeededFiles.module.MainActivityMvpModule;
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityContext;
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ApplicationContext;
-import com.example.accentureandroidtask.entity.Response;
+
 import com.example.accentureandroidtask.root.MyApplication;
 import com.example.accentureandroidtask.testCases.TestingActivity;
 import com.example.accentureandroidtask.util.CustomProgressDialog;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Inject
     MainActivityPresenterImpl mainActivityPresenter;
     CustomProgressDialog mCustomProgressDialog;
-    private ArrayList<Response> users;
+    private String temp;
     GPSTracker gps;
 
 
@@ -153,12 +153,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void showComplete() {
-        users = mainActivityPresenter.getUsers();
+        temp = mainActivityPresenter.getUsers();
         Log.d(TAG, "showComplete: " + "showComplete message");
     }
 
     @Override
-    public void updateRecycleView(ArrayList<Response> users) {
+    public void updateRecycleView(ArrayList<String> users) {
 
     }
 }

@@ -1,18 +1,12 @@
 package com.example.accentureandroidtask.mainActivityMVP;
 
-import android.content.Context;
 import android.os.Build;
-import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
 import com.example.accentureandroidtask.APIInterface;
-import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityContext;
-import com.example.accentureandroidtask.entity.Response;
-import com.example.accentureandroidtask.util.GPSTracker;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.accentureandroidtask.pojo.WeatherDataResponse;
 
 import javax.inject.Inject;
 
@@ -20,7 +14,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 
 
 public class MainActivityPresenterImpl implements MainActivityContract.Presenter  {
@@ -28,7 +21,7 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
 
     private MainActivityContract.View mView;
     APIInterface apiInterface;
-    private ArrayList<Response> users;
+
 
 
 
@@ -50,7 +43,7 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
       //  mView.hideProgress();
         apiInterface.getApiData().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
+                .subscribe(new Observer<WeatherDataResponse>() {
                     @Override
                     public void onComplete() {
                         mView.showComplete();
@@ -63,7 +56,8 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
                     }
 
                     @Override
-                    public void onNext(String data) {
+                    public void onNext(WeatherDataResponse data) {
+                        Log.d("weather data", "onNext: "+ data.getMain().getTemp().toString());
                         mView.hideProgress();
                     }
                     @Override
@@ -77,8 +71,8 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
     }
 
     @Override
-    public ArrayList<Response> getUsers() {
-        return users;
+    public String getUsers() {
+        return "jj";
     }
 
 
