@@ -11,6 +11,7 @@ public interface MainActivityContract {
 
         void showError(String call, String statusMessage);
         void showProgress();
+        void getLatLong();
         void hideProgress();
         void showComplete();
         void updateRecycleView(ArrayList<Response> users);

@@ -1,9 +1,12 @@
 package com.example.accentureandroidtask.mainActivityMVP;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -12,7 +15,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 
 import com.example.accentureandroidtask.R;
@@ -27,6 +32,7 @@ import com.example.accentureandroidtask.entity.Response;
 import com.example.accentureandroidtask.root.MyApplication;
 import com.example.accentureandroidtask.testCases.TestingActivity;
 import com.example.accentureandroidtask.util.CustomProgressDialog;
+import com.example.accentureandroidtask.util.GPSTracker;
 
 import java.util.ArrayList;
 
@@ -49,10 +55,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     MainActivityPresenterImpl mainActivityPresenter;
     CustomProgressDialog mCustomProgressDialog;
     private ArrayList<Response> users;
+    GPSTracker gps;
 
 
 
 
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +77,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                 .applicationComponent(applicationComponent)
                 .build();
         mainActivityComponent.injectMainActivity(this);
-
+        if (ActivityCompat.checkSelfPermission((Activity)activityContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity)activityContext, new String[]{
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+            }, 10);
+        }
         mainActivityPresenter.loadFeedsData();
 
         }
@@ -109,6 +122,26 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         mCustomProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mCustomProgressDialog.show();
         Log.d(TAG, "showProgress: " + "showProgress message");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void getLatLong() {
+        gps = new GPSTracker(activityContext);
+
+
+        if (gps.canGetLocation()) {
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+
+
+            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+        } else {
+
+
+            gps.showSettingsAlert();
+        }
     }
 
     @Override

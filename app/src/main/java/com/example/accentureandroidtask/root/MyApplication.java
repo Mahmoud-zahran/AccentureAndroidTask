@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.example.accentureandroidtask.daggerNeededFiles.component.ApplicationComponent;
+
 import com.example.accentureandroidtask.daggerNeededFiles.component.DaggerApplicationComponent;
 import com.example.accentureandroidtask.daggerNeededFiles.module.ContextModule;
 

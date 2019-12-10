@@ -2,6 +2,7 @@ package com.example.accentureandroidtask.daggerNeededFiles.module;
 
 
 
+import com.example.accentureandroidtask.APIInterface;
 import com.example.accentureandroidtask.daggerNeededFiles.scope.ActivityScope;
 import com.example.accentureandroidtask.mainActivityMVP.MainActivityContract;
 import com.example.accentureandroidtask.mainActivityMVP.MainActivityPresenterImpl;
@@ -13,6 +14,7 @@ import dagger.Provides;
 public class MainActivityMvpModule {
 
     private MainActivityContract.View mView;
+
 
     public MainActivityMvpModule(MainActivityContract.View mView){
         this.mView = mView;
@@ -26,8 +28,8 @@ public class MainActivityMvpModule {
 
     @Provides
     @ActivityScope
-    MainActivityPresenterImpl providePresenter(MainActivityContract.View mView){
-        return new MainActivityPresenterImpl( mView);
+    MainActivityPresenterImpl providePresenter(APIInterface mApiInterface, MainActivityContract.View mView){
+        return new MainActivityPresenterImpl(mApiInterface, mView);
     }
 
 }
