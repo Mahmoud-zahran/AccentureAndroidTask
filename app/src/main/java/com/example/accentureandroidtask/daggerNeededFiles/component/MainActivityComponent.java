@@ -9,6 +9,7 @@ import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityConte
 import com.example.accentureandroidtask.daggerNeededFiles.scope.ActivityScope;
 import com.example.accentureandroidtask.mainActivityMVP.MainActivity;
 
+
 import dagger.Component;
 
 @ActivityScope

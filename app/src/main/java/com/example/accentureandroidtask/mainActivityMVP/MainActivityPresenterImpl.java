@@ -40,6 +40,7 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
     public void loadFeedsData() {
         //mView.showProgress();
         mView.getLatLong();
+
       //  mView.hideProgress();
         apiInterface.getApiData().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

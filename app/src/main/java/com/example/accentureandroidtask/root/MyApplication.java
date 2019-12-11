@@ -6,10 +6,14 @@ import android.content.Context;
 
 import com.example.accentureandroidtask.daggerNeededFiles.component.ApplicationComponent;
 
+
 import com.example.accentureandroidtask.daggerNeededFiles.component.DaggerApplicationComponent;
 import com.example.accentureandroidtask.daggerNeededFiles.module.ContextModule;
+import com.example.accentureandroidtask.daggerNeededFiles.module.DatabaseModule;
+
 
 public class MyApplication extends Application {
+
     ApplicationComponent applicationComponent;
     private static Context mContext;
 
@@ -34,9 +38,13 @@ public class MyApplication extends Application {
         return mContext;
     }
 
+
     private void dependencyInjection(){
         applicationComponent = DaggerApplicationComponent.builder()
-                .contextModule(new ContextModule(this)).build();
+                .databaseModule(new DatabaseModule(this))
+                .contextModule(new ContextModule(this))
+                .build();
         applicationComponent.injectApplication(this);
     }
+
 }

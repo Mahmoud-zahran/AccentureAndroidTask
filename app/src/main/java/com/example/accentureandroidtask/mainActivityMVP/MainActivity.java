@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -22,19 +24,24 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.accentureandroidtask.R;
 import com.example.accentureandroidtask.daggerNeededFiles.component.ApplicationComponent;
-import com.example.accentureandroidtask.daggerNeededFiles.component.DaggerMainActivityComponent;
+
+
+
 import com.example.accentureandroidtask.daggerNeededFiles.component.MainActivityComponent;
 import com.example.accentureandroidtask.daggerNeededFiles.module.MainActivityContextModule;
 import com.example.accentureandroidtask.daggerNeededFiles.module.MainActivityMvpModule;
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityContext;
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ApplicationContext;
 
+import com.example.accentureandroidtask.roomdatabase.AppDatabase;
 import com.example.accentureandroidtask.root.MyApplication;
 import com.example.accentureandroidtask.testCases.TestingActivity;
 import com.example.accentureandroidtask.util.CustomProgressDialog;
 import com.example.accentureandroidtask.util.GPSTracker;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -45,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Inject
     @ApplicationContext
     public Context context;
+
+    @Inject
+    AppDatabase mAppDatabase;
 
     @Inject
     @ActivityContext
@@ -134,9 +144,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
+            String cityName="null";
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            try {
 
+                List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                 cityName = addresses.get(0).getAddressLine(0);
 
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+            }catch (Exception e){
+                Log.e(TAG, "getLatLong: "+e.getMessage(),e );
+            }
+            Toast.makeText(getApplicationContext(), "Your Location is "+cityName+" - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
         } else {
 
 
