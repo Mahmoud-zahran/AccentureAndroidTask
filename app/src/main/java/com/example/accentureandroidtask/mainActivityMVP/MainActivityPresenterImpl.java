@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.accentureandroidtask.APIInterface;
 import com.example.accentureandroidtask.pojo.WeatherDataResponse;
+import com.example.accentureandroidtask.roomdatabase.AppDatabase;
 
 import javax.inject.Inject;
 
@@ -22,7 +23,8 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
     private MainActivityContract.View mView;
     APIInterface apiInterface;
 
-
+    @Inject
+    AppDatabase mAppDatabase;
 
 
 

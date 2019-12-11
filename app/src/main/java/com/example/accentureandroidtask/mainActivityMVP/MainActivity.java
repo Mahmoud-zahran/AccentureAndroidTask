@@ -26,7 +26,7 @@ import com.example.accentureandroidtask.R;
 import com.example.accentureandroidtask.daggerNeededFiles.component.ApplicationComponent;
 
 
-
+import com.example.accentureandroidtask.daggerNeededFiles.component.DaggerMainActivityComponent;
 import com.example.accentureandroidtask.daggerNeededFiles.component.MainActivityComponent;
 import com.example.accentureandroidtask.daggerNeededFiles.module.MainActivityContextModule;
 import com.example.accentureandroidtask.daggerNeededFiles.module.MainActivityMvpModule;
@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @ApplicationContext
     public Context context;
 
-    @Inject
-    AppDatabase mAppDatabase;
+//    @Inject
+//    AppDatabase mAppDatabase;
 
     @Inject
     @ActivityContext
