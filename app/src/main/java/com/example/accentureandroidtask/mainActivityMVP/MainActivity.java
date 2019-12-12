@@ -1,51 +1,46 @@
 package com.example.accentureandroidtask.mainActivityMVP;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-
 import com.example.accentureandroidtask.R;
 import com.example.accentureandroidtask.daggerNeededFiles.component.ApplicationComponent;
-
-
 import com.example.accentureandroidtask.daggerNeededFiles.component.DaggerMainActivityComponent;
 import com.example.accentureandroidtask.daggerNeededFiles.component.MainActivityComponent;
 import com.example.accentureandroidtask.daggerNeededFiles.module.MainActivityContextModule;
 import com.example.accentureandroidtask.daggerNeededFiles.module.MainActivityMvpModule;
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityContext;
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ApplicationContext;
-
-import com.example.accentureandroidtask.roomdatabase.AppDatabase;
+import com.example.accentureandroidtask.pojo.WeatherDataResponse;
 import com.example.accentureandroidtask.root.MyApplication;
 import com.example.accentureandroidtask.testCases.TestingActivity;
 import com.example.accentureandroidtask.util.CustomProgressDialog;
 import com.example.accentureandroidtask.util.GPSTracker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.Date;
 
 import javax.inject.Inject;
 
-
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
@@ -64,11 +59,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Inject
     MainActivityPresenterImpl mainActivityPresenter;
     CustomProgressDialog mCustomProgressDialog;
+    @BindView(R.id.AR_TitleTextView)
+    TextView mTemprature;
+    @BindView(R.id.AR_DateTextView)
+    TextView ARDateTextView;
+    @BindView(R.id.AR_SubjectTextView)
+    TextView mDate;
+
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    Date date = new Date();
+
     private String temp;
     GPSTracker gps;
-
-
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -87,20 +89,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                 .applicationComponent(applicationComponent)
                 .build();
         mainActivityComponent.injectMainActivity(this);
-        if (ActivityCompat.checkSelfPermission((Activity)activityContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity)activityContext, new String[]{
-                    android.Manifest.permission.ACCESS_FINE_LOCATION
+        if (ActivityCompat.checkSelfPermission((Activity) activityContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) activityContext, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION
             }, 10);
         }
         mainActivityPresenter.loadFeedsData(activityContext);
 
-        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -115,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         }
 
     }
+
     @Override
     public void showError(String call, String statusMessage) {
         if (call.equals("network error")) {
@@ -175,6 +180,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public void showComplete() {
         temp = mainActivityPresenter.getUsers();
         Log.d(TAG, "showComplete: " + "showComplete message");
+    }
+
+    @Override
+    public void showWeatherData(WeatherDataResponse mWeatherDataResponse) {
+        mTemprature.setText("Temperature: "+mWeatherDataResponse.getMain().getTemp().toString());
+        mDate.setText("Date: "+formatter.format(date));
+
+
     }
 
     @Override

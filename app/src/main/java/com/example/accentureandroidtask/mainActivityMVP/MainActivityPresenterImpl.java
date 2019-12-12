@@ -73,6 +73,8 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
                     @Override
                     public void onNext(WeatherDataResponse data) {
                         Log.d("weather data", "onNext: "+ data.getMain().getTemp().toString());
+                        mView.showWeatherData(data);
+
                         mView.hideProgress();
                     }
                     @Override

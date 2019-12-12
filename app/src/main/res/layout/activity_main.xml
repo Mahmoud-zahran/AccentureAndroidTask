@@ -37,49 +37,36 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="3dp"
-            android:layout_toRightOf="@+id/AR_ImageView"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/AR_TitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Medium Text"
+                android:text="Temperature: "
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#000"
+                android:textColor="#777575"
                 android:textStyle="bold" />
-            <TextView
-                android:id="@+id/AR_DateTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="10/12/2020"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#000"
-                android:textSize="12dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/AR_LinearLayout"
-            android:layout_alignBottom="@+id/AR_ImageView"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="3dp"
-            android:layout_toRightOf="@+id/AR_ImageView"
             android:orientation="horizontal"
             >
             <TextView
                 android:id="@+id/AR_SubjectTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Medium Text"
+                android:text="Date: "
                 android:maxLines="1"
                 android:layout_weight="4"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#000"
+                android:textColor="#777575"
                 android:textSize="15dp" />
             <CheckBox
                 android:id="@+id/selection"
@@ -87,6 +74,17 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 />
+
+            <TextView
+                android:id="@+id/AR_DateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="More Details"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#777575"
+                android:textSize="12dp" />
         </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

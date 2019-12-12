@@ -5,6 +5,8 @@ package com.example.accentureandroidtask.mainActivityMVP;
 
 import android.content.Context;
 
+import com.example.accentureandroidtask.pojo.WeatherDataResponse;
+
 import java.util.ArrayList;
 
 public interface MainActivityContract {
@@ -15,6 +17,7 @@ public interface MainActivityContract {
         //String getLatLong();
         void hideProgress();
         void showComplete();
+        void showWeatherData(WeatherDataResponse mWeatherDataResponse);
         void updateRecycleView(ArrayList<String> users);
     }
 
