@@ -7,7 +7,7 @@ import androidx.room.Room;
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ApplicationContext;
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.DatabaseInfo;
 
-import com.example.accentureandroidtask.daggerNeededFiles.scope.ApplicationScope;
+
 import com.example.accentureandroidtask.roomdatabase.AppDatabase;
 import com.example.accentureandroidtask.roomdatabase.dao.WeatherDao;
 

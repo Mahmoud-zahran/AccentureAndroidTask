@@ -5,13 +5,20 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+import androidx.room.Room;
 
 import com.example.accentureandroidtask.APIInterface;
 import com.example.accentureandroidtask.ApiUrls;
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityContext;
 import com.example.accentureandroidtask.pojo.WeatherDataResponse;
 import com.example.accentureandroidtask.roomdatabase.AppDatabase;
+import com.example.accentureandroidtask.roomdatabase.Executor;
+import com.example.accentureandroidtask.roomdatabase.dao.BaseDao;
+import com.example.accentureandroidtask.roomdatabase.entity.WeatherDataEntity;
 import com.example.accentureandroidtask.util.GPSTracker;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -27,9 +34,12 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
     private MainActivityContract.View mView;
     APIInterface apiInterface;
     GPSTracker gps;
+    WeatherDataEntity mWeatherDataEntity;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    Date date = new Date();
 
-    @Inject
-    AppDatabase mAppDatabase;
+//    @Inject
+//    AppDatabase mAppDatabase;
 
 
 
@@ -38,7 +48,8 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
        // this.feedsApi = feedsApi;//DownloadDataTypeServiceProvider.getInstance();
         this.apiInterface = apiInterface;
         this.mView = mView;
-
+        mWeatherDataEntity= new WeatherDataEntity();
+//mAppDatabase= Room.databaseBuilder(, AppDatabase.class, "database-name").build();
 
     }
 
@@ -74,6 +85,13 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
                     public void onNext(WeatherDataResponse data) {
                         Log.d("weather data", "onNext: "+ data.getMain().getTemp().toString());
                         mView.showWeatherData(data);
+                        mWeatherDataEntity.setCity(data.getName());
+                        mWeatherDataEntity.setLatitude(data.getCoord().getLat());
+                        mWeatherDataEntity.setLongitude(data.getCoord().getLon());
+                        mWeatherDataEntity.setTemperature(data.getMain().getTemp());
+                        mWeatherDataEntity.setDate(formatter.format(date));
+                   //     Executor.IOThread(() -> BaseDao.insert((WeatherDataEntity)mainActivityPresenter.mWeatherDataEntity);
+
 
                         mView.hideProgress();
                     }

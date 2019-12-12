@@ -76,7 +76,7 @@ public class TestingActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
+        /*if (id == R.id.action_refresh) {
             Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
             txtResult.setText("");
             lineIndex = 0;
@@ -101,7 +101,7 @@ public class TestingActivity extends AppCompatActivity {
             Toast.makeText(this, "Cache Cleared", Toast.LENGTH_SHORT).show();
             return true;
         }
-
+*/
         return super.onOptionsItemSelected(item);
     }
 

@@ -29,6 +29,10 @@ import com.example.accentureandroidtask.daggerNeededFiles.module.MainActivityMvp
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityContext;
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ApplicationContext;
 import com.example.accentureandroidtask.pojo.WeatherDataResponse;
+import com.example.accentureandroidtask.roomdatabase.Executor;
+import com.example.accentureandroidtask.roomdatabase.dao.BaseDao;
+import com.example.accentureandroidtask.roomdatabase.dao.WeatherDao;
+import com.example.accentureandroidtask.roomdatabase.entity.WeatherDataEntity;
 import com.example.accentureandroidtask.root.MyApplication;
 import com.example.accentureandroidtask.testCases.TestingActivity;
 import com.example.accentureandroidtask.util.CustomProgressDialog;
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.menu_items, menu);
         return true;
     }
 
@@ -109,9 +113,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.menu_SetVehicle:
-                Intent intent = new Intent(MainActivity.this, TestingActivity.class);
-                startActivity(intent);
+            case R.id.action_save:
+              //  Executor.IOThread(() ->mainActivityPresenter.mAppDatabase.weatherDao().insert(mainActivityPresenter.mWeatherDataEntity));
+                Log.d(TAG, "save buttonClicked: " + "showProgress message"+mainActivityPresenter.mWeatherDataEntity.getCity());
+            Toast.makeText(getApplicationContext(), "Your Location is "+mainActivityPresenter.mWeatherDataEntity.getCity(), Toast.LENGTH_LONG).show();
+
                 return true;
 
             default:

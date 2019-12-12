@@ -20,4 +20,55 @@ public class WeatherDataEntity {
     @ColumnInfo(name = "latitude")
     public double latitude;
 
+    @ColumnInfo(name = "temperature")
+    public double temperature;
+
+    @ColumnInfo(name = "date")
+    public String date;
+
+
+
+    public int getTemp_id() {
+        return temp_id;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 }
