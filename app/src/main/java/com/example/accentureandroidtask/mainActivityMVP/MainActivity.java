@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                     android.Manifest.permission.ACCESS_FINE_LOCATION
             }, 10);
         }
-        mainActivityPresenter.loadFeedsData();
+        mainActivityPresenter.loadFeedsData(activityContext);
 
         }
     @Override
@@ -134,33 +134,35 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         Log.d(TAG, "showProgress: " + "showProgress message");
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void getLatLong() {
-        gps = new GPSTracker(activityContext);
-
-
-        if (gps.canGetLocation()) {
-
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
-            String cityName="null";
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-            try {
-
-                List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                 cityName = addresses.get(0).getAddressLine(0);
-
-            }catch (Exception e){
-                Log.e(TAG, "getLatLong: "+e.getMessage(),e );
-            }
-            Toast.makeText(getApplicationContext(), "Your Location is "+cityName+" - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-        } else {
-
-
-            gps.showSettingsAlert();
-        }
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    @Override
+//    public String getLatLong() {
+//        gps = new GPSTracker(activityContext);
+//
+//
+//        if (gps.canGetLocation()) {
+//
+//            double latitude = gps.getLatitude();
+//            double longitude = gps.getLongitude();
+//            String cityName="null";
+//            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+//            try {
+//
+//                List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+//                 cityName = addresses.get(0).getAddressLine(0).split(",")[1];
+//                 return  cityName;
+//            }catch (Exception e){
+//                Log.e(TAG, "getLatLong: "+e.getMessage(),e );
+//            }
+//            Toast.makeText(getApplicationContext(), "Your Location is "+cityName+" - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+//        } else {
+//
+//
+//            gps.showSettingsAlert();
+//            return "empty";
+//        }
+//        return "empty";
+//    }
 
     @Override
     public void hideProgress() {

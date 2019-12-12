@@ -3,6 +3,8 @@ package com.example.accentureandroidtask.mainActivityMVP;
 //This is the blueprint of View-Model-Presenter.
 
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
 public interface MainActivityContract {
@@ -10,14 +12,14 @@ public interface MainActivityContract {
 
         void showError(String call, String statusMessage);
         void showProgress();
-        void getLatLong();
+        //String getLatLong();
         void hideProgress();
         void showComplete();
         void updateRecycleView(ArrayList<String> users);
     }
 
     interface Presenter{
-        void loadFeedsData();
+        void loadFeedsData(Context context);
         String getUsers();
 
     }
