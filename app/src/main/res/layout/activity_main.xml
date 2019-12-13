@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recyclerView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mainActivityMVP.MainActivity">
+
+     >
+</androidx.recyclerview.widget.RecyclerView>
+
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -22,7 +37,7 @@
         android:layout_margin="10dp"
         android:background="@color/white"
         android:orientation="horizontal">
-       <!-- <ImageView
+       &lt;!&ndash; <ImageView
             android:id="@+id/AR_ImageView"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -30,7 +45,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="3dp"
-            android:src="@drawable/ic_launcher_foreground" />-->
+            android:src="@drawable/ic_launcher_foreground" />&ndash;&gt;
         <LinearLayout
             android:id="@+id/AR_LinearLayout"
             android:layout_width="match_parent"
@@ -88,4 +103,4 @@
         </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
-</RelativeLayout>
+</RelativeLayout>-->

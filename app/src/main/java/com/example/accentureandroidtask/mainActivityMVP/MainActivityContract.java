@@ -20,6 +20,7 @@ public interface MainActivityContract {
         void hideProgress();
         void showComplete();
         void runExecuterToGetData();
+        void populateRecyclerView(List<WeatherDataEntity> response);
         void saveCurrentTemp(Context context);
         void showWeatherData(WeatherDataResponse mWeatherDataResponse);
         void updateRecycleView(ArrayList<String> users);
@@ -28,6 +29,7 @@ public interface MainActivityContract {
 
     interface Presenter{
         void loadFeedsData(Context context);
+
 
 
 

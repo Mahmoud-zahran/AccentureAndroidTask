@@ -14,4 +14,7 @@ public interface WeatherDao extends BaseDao<WeatherDataEntity>{
 
     @Query("SELECT * FROM TB_Weather WHERE city LIKE :city")
     List<WeatherDataEntity> findPersonsByName(String city);
+
+    @Query("DELETE  FROM TB_Weather")
+    public void deleteAll();
 }

@@ -3,6 +3,7 @@ package com.example.accentureandroidtask.mainActivityMVP;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,8 +19,11 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.accentureandroidtask.R;
+import com.example.accentureandroidtask.adapter.RecyclerViewAdapter;
 import com.example.accentureandroidtask.daggerNeededFiles.component.ApplicationComponent;
 import com.example.accentureandroidtask.daggerNeededFiles.component.DaggerMainActivityComponent;
 import com.example.accentureandroidtask.daggerNeededFiles.component.MainActivityComponent;
@@ -32,6 +36,7 @@ import com.example.accentureandroidtask.roomdatabase.AppDatabase;
 import com.example.accentureandroidtask.roomdatabase.Executor;
 import com.example.accentureandroidtask.roomdatabase.entity.WeatherDataEntity;
 import com.example.accentureandroidtask.root.MyApplication;
+import com.example.accentureandroidtask.ui.detailsActivityMVP.DetailsActivity;
 import com.example.accentureandroidtask.util.CustomProgressDialog;
 import com.example.accentureandroidtask.util.GPSTracker;
 
@@ -46,28 +51,24 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
+public class MainActivity extends AppCompatActivity implements MainActivityContract.View , RecyclerViewAdapter.ClickListener {
+    private static final String TAG ="MainActivity" ;
     @Inject
     @ApplicationContext
     public Context context;
 
-//    @Inject
-//    AppDatabase mAppDatabase;
+    private RecyclerView recyclerView;
+
+    @Inject
+    public RecyclerViewAdapter recyclerViewAdapter;
 
     @Inject
     @ActivityContext
     public Context activityContext;
-    String TAG = "MainActivity";
 
     @Inject
     MainActivityPresenterImpl mainActivityPresenter;
     CustomProgressDialog mCustomProgressDialog;
-    @BindView(R.id.AR_TitleTextView)
-    TextView mTemprature;
-    @BindView(R.id.AR_DateTextView)
-    TextView ARDateTextView;
-    @BindView(R.id.AR_SubjectTextView)
-    TextView mDate;
 
     List<WeatherDataEntity> savedTempList;
 
@@ -87,6 +88,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
         MainActivityComponent mainActivityComponent;
 
 
@@ -105,10 +110,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                     Manifest.permission.ACCESS_FINE_LOCATION
             }, 10);
         }
-        mainActivityPresenter.loadFeedsData(activityContext);
+//        Executor.IOThread(() ->mAppDatabase.weatherDao().deleteAll());
+        runExecuterToGetData();
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+       // mainActivityPresenter.loadFeedsData(activityContext);
 
     }
-
+    @Override
+    public void populateRecyclerView(List<WeatherDataEntity> response) {
+        recyclerViewAdapter.setData(response);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -116,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -198,8 +211,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void showWeatherData(WeatherDataResponse mWeatherDataResponse) {
-        mTemprature.setText("Temperature: "+mWeatherDataResponse.getMain().getTemp().toString());
-        mDate.setText("Date: "+formatter.format(date));
+//        mTemprature.setText("Temperature: "+mWeatherDataResponse.getMain().getTemp().toString());
+//        mDate.setText("Date: "+formatter.format(date));
 
 
     }
@@ -208,8 +221,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public void updateRecycleView(ArrayList<String> users) {
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void saveCurrentTemp(Context context) {
+        mainActivityPresenter.loadFeedsData(context);
         Executor.IOThread(() ->mAppDatabase.weatherDao().insert(mainActivityPresenter.mWeatherDataEntity));
         Log.d("presenter", "save buttonClicked: " + "DataBase message "+  mainActivityPresenter.mWeatherDataEntity.getCity());
         Toast.makeText(context, "Your Location is "+mainActivityPresenter.mWeatherDataEntity.getCity(), Toast.LENGTH_LONG).show();
@@ -220,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         savedTempList =new ArrayList<>();
         Executor.IOThread(()->{
             savedTempList = mAppDatabase.weatherDao().getAll();
+            populateRecyclerView(savedTempList);
 //            Log.d(TAG, "save buttonClicked: " + "DataBase message "+  savedTempList.get(0).getCity());
             // mAppDatabase.weatherDao().getAll().get(0).getCity();
 
@@ -233,5 +249,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public List<WeatherDataEntity> getSavedTempList() {
         runExecuterToGetData();
         return savedTempList ;
+    }
+    @Override
+    public void launchIntent(String url) {
+        Toast.makeText(activityContext, "RecyclerView Row selected "+url, Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(activityContext, DetailsActivity.class).putExtra("url", url));
     }
 }

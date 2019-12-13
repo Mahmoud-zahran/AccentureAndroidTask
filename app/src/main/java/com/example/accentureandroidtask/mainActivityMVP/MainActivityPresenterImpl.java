@@ -92,6 +92,7 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
 
 
                         mView.hideProgress();
+
                     }
                     @Override
                     public void onError(Throwable e) {

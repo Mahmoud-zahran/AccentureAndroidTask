@@ -18,4 +18,6 @@ public interface BaseDao<T>  {
 
     @Delete
     void delete(T t);
+
+
 }
