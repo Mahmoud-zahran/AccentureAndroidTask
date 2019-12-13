@@ -2,7 +2,7 @@ package com.example.accentureandroidtask.daggerNeededFiles.module;
 
 import com.example.accentureandroidtask.adapter.RecyclerViewAdapter;
 import com.example.accentureandroidtask.daggerNeededFiles.scope.ActivityScope;
-import com.example.accentureandroidtask.mainActivityMVP.MainActivity;
+import com.example.accentureandroidtask.ui.mainActivityMVP.MainActivity;
 
 import dagger.Module;
 import dagger.Provides;

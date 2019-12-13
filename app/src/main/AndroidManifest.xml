@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.detailsActivityMVP.DetailsActivity"></activity>
         <activity android:name=".testCases.TestingActivity" />
-        <activity android:name=".mainActivityMVP.MainActivity">
+        <activity android:name=".ui.mainActivityMVP.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

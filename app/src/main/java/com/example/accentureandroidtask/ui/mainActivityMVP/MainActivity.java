@@ -1,4 +1,4 @@
-package com.example.accentureandroidtask.mainActivityMVP;
+package com.example.accentureandroidtask.ui.mainActivityMVP;
 
 import android.Manifest;
 import android.app.Activity;
@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -38,24 +37,24 @@ import com.example.accentureandroidtask.roomdatabase.entity.WeatherDataEntity;
 import com.example.accentureandroidtask.root.MyApplication;
 import com.example.accentureandroidtask.ui.detailsActivityMVP.DetailsActivity;
 import com.example.accentureandroidtask.util.CustomProgressDialog;
-import com.example.accentureandroidtask.util.GPSTracker;
+import com.example.accentureandroidtask.util.MovableImageButton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements MainActivityContract.View , RecyclerViewAdapter.ClickListener {
-    private static final String TAG ="MainActivity" ;
+public class MainActivity extends AppCompatActivity implements MainActivityContract.View, RecyclerViewAdapter.ClickListener {
+    private static final String TAG = "MainActivity";
     @Inject
     @ApplicationContext
     public Context context;
+    @BindView(R.id.deleteAll_savedData_movableBtn)
+    MovableImageButton deleteAllSavedDataMovableBtn;
 
     private RecyclerView recyclerView;
 
@@ -75,12 +74,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Inject
     AppDatabase mAppDatabase;
-
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-    Date date = new Date();
-
-    private List<WeatherDataEntity> temp;
-    GPSTracker gps;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -114,13 +107,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         runExecuterToGetData();
         recyclerView.setAdapter(recyclerViewAdapter);
 
-       // mainActivityPresenter.loadFeedsData(activityContext);
+        // mainActivityPresenter.loadFeedsData(activityContext);
 
     }
+
     @Override
     public void populateRecyclerView(List<WeatherDataEntity> response) {
         recyclerViewAdapter.setData(response);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -134,7 +129,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
         switch (item.getItemId()) {
             case R.id.action_save:
-                saveCurrentTemp(getApplicationContext());
+                mainActivityPresenter.loadFeedsData(getApplicationContext());
+                // saveCurrentTemp(getApplicationContext());
 //                Log.d(TAG, "save buttonClicked: " + "DataBase message "+  savedTempList.get(0).getCity());
 //
 //                 Log.d(TAG, "save buttonClicked: " + "DataBase message"+  city);
@@ -205,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void showComplete() {
-    //    temp = mainActivityPresenter.getSavedTempList();
+        //    temp = mainActivityPresenter.getSavedTempList();
         Log.d(TAG, "showComplete: " + "showComplete message");
     }
 
@@ -221,19 +217,26 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public void updateRecycleView(ArrayList<String> users) {
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void saveCurrentTemp(Context context) {
-        mainActivityPresenter.loadFeedsData(context);
-        Executor.IOThread(() ->mAppDatabase.weatherDao().insert(mainActivityPresenter.mWeatherDataEntity));
-        Log.d("presenter", "save buttonClicked: " + "DataBase message "+  mainActivityPresenter.mWeatherDataEntity.getCity());
-        Toast.makeText(context, "Your Location is "+mainActivityPresenter.mWeatherDataEntity.getCity(), Toast.LENGTH_LONG).show();
+
+        Executor.IOThread(() -> {
+            mAppDatabase.weatherDao().insert(mainActivityPresenter.mWeatherDataEntity);
+            savedTempList = mAppDatabase.weatherDao().getAll();
+        });
+        Log.d("presenter", "save buttonClicked: " + "DataBase message " + mainActivityPresenter.mWeatherDataEntity.getCity());
+        Toast.makeText(context, "Your Location is " + mainActivityPresenter.mWeatherDataEntity.getCity(), Toast.LENGTH_LONG).show();
+        populateRecyclerView(savedTempList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setAdapter(recyclerViewAdapter);
     }
 
     @Override
-    public void runExecuterToGetData(){
-        savedTempList =new ArrayList<>();
-        Executor.IOThread(()->{
+    public void runExecuterToGetData() {
+        savedTempList = new ArrayList<>();
+        Executor.IOThread(() -> {
             savedTempList = mAppDatabase.weatherDao().getAll();
             populateRecyclerView(savedTempList);
 //            Log.d(TAG, "save buttonClicked: " + "DataBase message "+  savedTempList.get(0).getCity());
@@ -245,14 +248,35 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
         });
     }
+
     @Override
     public List<WeatherDataEntity> getSavedTempList() {
         runExecuterToGetData();
-        return savedTempList ;
+        return savedTempList;
     }
+
     @Override
     public void launchIntent(String url) {
-        Toast.makeText(activityContext, "RecyclerView Row selected "+url, Toast.LENGTH_SHORT).show();
+        Toast.makeText(activityContext, "RecyclerView Row selected " + url, Toast.LENGTH_SHORT).show();
         startActivity(new Intent(activityContext, DetailsActivity.class).putExtra("url", url));
+    }
+
+    @OnClick(R.id.deleteAll_savedData_movableBtn)
+    public void onViewClicked() {
+
+                Executor.IOThread(() ->{
+
+                    mAppDatabase.weatherDao().deleteAll();
+                    savedTempList = mAppDatabase.weatherDao().getAll();
+
+                });
+
+        recyclerViewAdapter.setData(new ArrayList<WeatherDataEntity>());
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setAdapter(recyclerViewAdapter);
+        Toast.makeText(getApplicationContext(), "All weather data Deleted.", Toast.LENGTH_LONG).show();
+
+
+
     }
 }

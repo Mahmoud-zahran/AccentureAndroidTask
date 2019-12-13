@@ -4,8 +4,8 @@ package com.example.accentureandroidtask.daggerNeededFiles.module;
 
 import com.example.accentureandroidtask.APIInterface;
 import com.example.accentureandroidtask.daggerNeededFiles.scope.ActivityScope;
-import com.example.accentureandroidtask.mainActivityMVP.MainActivityContract;
-import com.example.accentureandroidtask.mainActivityMVP.MainActivityPresenterImpl;
+import com.example.accentureandroidtask.ui.mainActivityMVP.MainActivityContract;
+import com.example.accentureandroidtask.ui.mainActivityMVP.MainActivityPresenterImpl;
 
 import dagger.Module;
 import dagger.Provides;

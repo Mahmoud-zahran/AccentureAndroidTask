@@ -1,24 +1,20 @@
-package com.example.accentureandroidtask.mainActivityMVP;
+package com.example.accentureandroidtask.ui.mainActivityMVP;
 
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+
 
 import com.example.accentureandroidtask.APIInterface;
 import com.example.accentureandroidtask.ApiUrls;
 import com.example.accentureandroidtask.pojo.WeatherDataResponse;
-import com.example.accentureandroidtask.roomdatabase.AppDatabase;
-import com.example.accentureandroidtask.roomdatabase.Executor;
 import com.example.accentureandroidtask.roomdatabase.entity.WeatherDataEntity;
 import com.example.accentureandroidtask.util.GPSTracker;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -81,15 +77,16 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
 
                     @Override
                     public void onNext(WeatherDataResponse data) {
-                        Log.d("weather data", "onNext: "+ data.getMain().getTemp().toString());
+                        Log.d("weather data", "onNext: " + data.getMain().getTemp().toString());
                         mView.showWeatherData(data);
                         mWeatherDataEntity.setCity(data.getName());
                         mWeatherDataEntity.setLatitude(data.getCoord().getLat());
                         mWeatherDataEntity.setLongitude(data.getCoord().getLon());
                         mWeatherDataEntity.setTemperature(data.getMain().getTemp());
                         mWeatherDataEntity.setDate(formatter.format(date));
-                   //     Executor.IOThread(() -> BaseDao.insert((WeatherDataEntity)mainActivityPresenter.mWeatherDataEntity);
+                        //     Executor.IOThread(() -> BaseDao.insert((WeatherDataEntity)mainActivityPresenter.mWeatherDataEntity);
 
+                        mView.saveCurrentTemp(context);
 
                         mView.hideProgress();
 

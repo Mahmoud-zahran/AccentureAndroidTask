@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityContext;
 import com.example.accentureandroidtask.daggerNeededFiles.scope.ActivityScope;
-import com.example.accentureandroidtask.mainActivityMVP.MainActivity;
+import com.example.accentureandroidtask.ui.mainActivityMVP.MainActivity;
 
 import dagger.Module;
 import dagger.Provides;

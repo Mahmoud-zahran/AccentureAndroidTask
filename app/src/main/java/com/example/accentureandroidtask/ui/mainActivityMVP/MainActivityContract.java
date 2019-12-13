@@ -1,4 +1,4 @@
-package com.example.accentureandroidtask.mainActivityMVP;
+package com.example.accentureandroidtask.ui.mainActivityMVP;
 
 //This is the blueprint of View-Model-Presenter.
 
