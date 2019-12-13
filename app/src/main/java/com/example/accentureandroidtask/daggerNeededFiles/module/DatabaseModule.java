@@ -29,7 +29,7 @@ public class DatabaseModule {
         mContext = context;
     }
 
-    @Singleton
+//    @Singleton
     @Provides
     AppDatabase provideDatabase () {
         return Room.databaseBuilder(
@@ -37,7 +37,14 @@ public class DatabaseModule {
                 AppDatabase.class,
                 mDBName
         ).fallbackToDestructiveMigration().build();
+
     }
+
+//    @Singleton
+//    @Provides
+//    public AppDatabase provideMyDatabase(Context context){
+//        return Room.databaseBuilder(context, AppDatabase.class, mDBName).build();
+//    }
 
     @Provides
     @DatabaseInfo
@@ -45,7 +52,7 @@ public class DatabaseModule {
 
 
 
-    @Singleton
+//    @Singleton
     @Provides
     WeatherDao provideWeatherDao(AppDatabase db) { return db.weatherDao(); }
 

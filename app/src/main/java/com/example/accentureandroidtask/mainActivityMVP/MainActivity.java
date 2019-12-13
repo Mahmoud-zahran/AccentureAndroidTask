@@ -3,7 +3,6 @@ package com.example.accentureandroidtask.mainActivityMVP;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -29,18 +28,18 @@ import com.example.accentureandroidtask.daggerNeededFiles.module.MainActivityMvp
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityContext;
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ApplicationContext;
 import com.example.accentureandroidtask.pojo.WeatherDataResponse;
+import com.example.accentureandroidtask.roomdatabase.AppDatabase;
 import com.example.accentureandroidtask.roomdatabase.Executor;
-import com.example.accentureandroidtask.roomdatabase.dao.BaseDao;
-import com.example.accentureandroidtask.roomdatabase.dao.WeatherDao;
 import com.example.accentureandroidtask.roomdatabase.entity.WeatherDataEntity;
 import com.example.accentureandroidtask.root.MyApplication;
-import com.example.accentureandroidtask.testCases.TestingActivity;
 import com.example.accentureandroidtask.util.CustomProgressDialog;
 import com.example.accentureandroidtask.util.GPSTracker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.inject.Inject;
 
@@ -70,10 +69,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @BindView(R.id.AR_SubjectTextView)
     TextView mDate;
 
+    List<WeatherDataEntity> savedTempList;
+
+
+    @Inject
+    AppDatabase mAppDatabase;
+
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     Date date = new Date();
 
-    private String temp;
+    private List<WeatherDataEntity> temp;
     GPSTracker gps;
 
 
@@ -90,9 +95,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         mainActivityComponent = DaggerMainActivityComponent.builder()
                 .mainActivityContextModule(new MainActivityContextModule(this))
                 .mainActivityMvpModule(new MainActivityMvpModule(this))
+//                .databaseModule(new DatabaseModule(this))
                 .applicationComponent(applicationComponent)
                 .build();
         mainActivityComponent.injectMainActivity(this);
+
         if (ActivityCompat.checkSelfPermission((Activity) activityContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) activityContext, new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION
@@ -114,10 +121,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
         switch (item.getItemId()) {
             case R.id.action_save:
-              //  Executor.IOThread(() ->mainActivityPresenter.mAppDatabase.weatherDao().insert(mainActivityPresenter.mWeatherDataEntity));
-                Log.d(TAG, "save buttonClicked: " + "showProgress message"+mainActivityPresenter.mWeatherDataEntity.getCity());
-            Toast.makeText(getApplicationContext(), "Your Location is "+mainActivityPresenter.mWeatherDataEntity.getCity(), Toast.LENGTH_LONG).show();
-
+                saveCurrentTemp(getApplicationContext());
+//                Log.d(TAG, "save buttonClicked: " + "DataBase message "+  savedTempList.get(0).getCity());
+//
+//                 Log.d(TAG, "save buttonClicked: " + "DataBase message"+  city);
+//                mAppDatabase.weatherDao().getAll().get(0);
                 return true;
 
             default:
@@ -184,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void showComplete() {
-        temp = mainActivityPresenter.getUsers();
+    //    temp = mainActivityPresenter.getSavedTempList();
         Log.d(TAG, "showComplete: " + "showComplete message");
     }
 
@@ -199,5 +207,31 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     public void updateRecycleView(ArrayList<String> users) {
 
+    }
+    @Override
+    public void saveCurrentTemp(Context context) {
+        Executor.IOThread(() ->mAppDatabase.weatherDao().insert(mainActivityPresenter.mWeatherDataEntity));
+        Log.d("presenter", "save buttonClicked: " + "DataBase message "+  mainActivityPresenter.mWeatherDataEntity.getCity());
+        Toast.makeText(context, "Your Location is "+mainActivityPresenter.mWeatherDataEntity.getCity(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void runExecuterToGetData(){
+        savedTempList =new ArrayList<>();
+        Executor.IOThread(()->{
+            savedTempList = mAppDatabase.weatherDao().getAll();
+//            Log.d(TAG, "save buttonClicked: " + "DataBase message "+  savedTempList.get(0).getCity());
+            // mAppDatabase.weatherDao().getAll().get(0).getCity();
+
+
+//        Toast.makeText(getApplicationContext(), "Your Location is "+mainActivityPresenter.mWeatherDataEntity.getCity(), Toast.LENGTH_LONG).show();
+
+
+        });
+    }
+    @Override
+    public List<WeatherDataEntity> getSavedTempList() {
+        runExecuterToGetData();
+        return savedTempList ;
     }
 }

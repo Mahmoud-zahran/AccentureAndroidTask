@@ -3,22 +3,22 @@ package com.example.accentureandroidtask.mainActivityMVP;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.room.Room;
 
 import com.example.accentureandroidtask.APIInterface;
 import com.example.accentureandroidtask.ApiUrls;
-import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityContext;
 import com.example.accentureandroidtask.pojo.WeatherDataResponse;
 import com.example.accentureandroidtask.roomdatabase.AppDatabase;
 import com.example.accentureandroidtask.roomdatabase.Executor;
-import com.example.accentureandroidtask.roomdatabase.dao.BaseDao;
 import com.example.accentureandroidtask.roomdatabase.entity.WeatherDataEntity;
 import com.example.accentureandroidtask.util.GPSTracker;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -38,8 +38,6 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     Date date = new Date();
 
-//    @Inject
-//    AppDatabase mAppDatabase;
 
 
 
@@ -108,10 +106,7 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
 
     }
 
-    @Override
-    public String getUsers() {
-        return "jj";
-    }
+
 
 
 }

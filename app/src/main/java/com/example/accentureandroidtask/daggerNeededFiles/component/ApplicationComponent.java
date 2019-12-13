@@ -9,6 +9,7 @@ import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ApplicationCo
 import com.example.accentureandroidtask.daggerNeededFiles.qualifer.DatabaseInfo;
 import com.example.accentureandroidtask.daggerNeededFiles.scope.ApplicationScope;
 import com.example.accentureandroidtask.daggerNeededFiles.module.RetrofitModule;
+import com.example.accentureandroidtask.roomdatabase.AppDatabase;
 import com.example.accentureandroidtask.root.MyApplication;
 
 import dagger.Component;
@@ -18,6 +19,7 @@ import dagger.Component;
 public interface ApplicationComponent {
 
     APIInterface getApiInterface();
+    AppDatabase getDataBase();
 
     @ApplicationContext
     Context getContext();
