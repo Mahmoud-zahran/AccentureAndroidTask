@@ -35,8 +35,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.txtName.setText(data.get(position).getTemperature()+"");
-        holder.txtBirthYear.setText(data.get(position).getDate());
+        holder.txtName.setText("Temperature: "+data.get(position).getTemperature()+"");
+        holder.txtBirthYear.setText("Date: "+data.get(position).getDate());
     }
 
     @Override

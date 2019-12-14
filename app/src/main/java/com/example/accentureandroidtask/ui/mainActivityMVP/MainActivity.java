@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.accentureandroidtask.R;
 import com.example.accentureandroidtask.adapter.RecyclerViewAdapter;
 import com.example.accentureandroidtask.daggerNeededFiles.component.ApplicationComponent;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Inject
     @ApplicationContext
     public Context context;
+
     @BindView(R.id.deleteAll_savedData_movableBtn)
     MovableImageButton deleteAllSavedDataMovableBtn;
 
@@ -259,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public void launchIntent(String url) {
         Toast.makeText(activityContext, "RecyclerView Row selected " + url, Toast.LENGTH_SHORT).show();
         startActivity(new Intent(activityContext, DetailsActivity.class).putExtra("url", url));
+        Animatoo.animateZoom(activityContext);
     }
 
     @OnClick(R.id.deleteAll_savedData_movableBtn)
@@ -279,4 +282,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
 
     }
+
+
 }

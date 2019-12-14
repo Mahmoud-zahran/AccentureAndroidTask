@@ -6,12 +6,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.accentureandroidtask.APIInterface;
 import com.example.accentureandroidtask.R;
 import com.example.accentureandroidtask.daggerNeededFiles.component.ApplicationComponent;
 import com.example.accentureandroidtask.daggerNeededFiles.component.DaggerDetailsActivityComponent;
 import com.example.accentureandroidtask.daggerNeededFiles.component.DetailsActivityComponent;
-import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ApplicationContext;
+import com.example.accentureandroidtask.daggerNeededFiles.module.DetailsActivityContextModule;
+
+import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityContext;
+
 import com.example.accentureandroidtask.root.MyApplication;
 
 import javax.inject.Inject;
@@ -23,7 +27,7 @@ public class DetailsActivity extends AppCompatActivity {
     public APIInterface apiInterface;
 
     @Inject
-    @ApplicationContext
+    @ActivityContext
     public Context mContext;
 
     TextView textView;
@@ -39,11 +43,17 @@ public class DetailsActivity extends AppCompatActivity {
 
         ApplicationComponent applicationComponent = MyApplication.get(this).getApplicationComponent();
         detailsActivityComponent = DaggerDetailsActivityComponent.builder()
+                .detailsActivityContextModule(new DetailsActivityContextModule(this))
                 .applicationComponent(applicationComponent)
                 .build();
 
-        detailsActivityComponent.inject(this);
+        detailsActivityComponent.injectDetailsActivity(this);
         textView.setText(url);
 
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Animatoo.animateSlideLeft(mContext);
     }
 }
