@@ -4,8 +4,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "TB_Weather")
-public class WeatherDataEntity {
+public class WeatherDataEntity implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "temp_id")
@@ -26,7 +28,17 @@ public class WeatherDataEntity {
     @ColumnInfo(name = "date")
     public String date;
 
+    @ColumnInfo(name = "weatherId")
+    private int weatherId;
 
+
+    public int getWeatherId() {
+        return weatherId;
+    }
+
+    public void setWeatherId(int weatherId) {
+        this.weatherId = weatherId;
+    }
 
     public int getTemp_id() {
         return temp_id;

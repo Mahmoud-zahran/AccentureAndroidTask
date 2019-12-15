@@ -28,7 +28,7 @@ public interface MainActivityContract {
     }
 
     interface Presenter{
-        void loadFeedsData(Context context);
+        void loadFeedsData(Context context,boolean save);
 
 
 

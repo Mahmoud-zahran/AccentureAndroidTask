@@ -3,6 +3,7 @@ package com.example.accentureandroidtask.ui.mainActivityMVP;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -49,7 +50,7 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void loadFeedsData(Context context) {
+    public void loadFeedsData(Context context,boolean save) {
         //mView.showProgress();
        // mView.getLatLong();
         gps = new GPSTracker(context);
@@ -84,10 +85,18 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
                         mWeatherDataEntity.setLongitude(data.getCoord().getLon());
                         mWeatherDataEntity.setTemperature(data.getMain().getTemp());
                         mWeatherDataEntity.setDate(formatter.format(date));
+                        mWeatherDataEntity.setWeatherId(data.getWeather().get(0).getId());
                         //     Executor.IOThread(() -> BaseDao.insert((WeatherDataEntity)mainActivityPresenter.mWeatherDataEntity);
 
-                        mView.saveCurrentTemp(context);
+                        if (save) {
+                            mView.saveCurrentTemp(context);
+                            mView.showWeatherData(data);
+                        }else{
+                            mView.showWeatherData(data);
+                            Log.d("presenter", "save buttonClicked: " + "DataBase message " + data.getName());
+                            Toast.makeText(context, "Your Location is " + data.getName(), Toast.LENGTH_LONG).show();
 
+                        }
                         mView.hideProgress();
 
                     }

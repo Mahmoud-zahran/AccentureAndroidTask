@@ -40,8 +40,12 @@ import com.example.accentureandroidtask.ui.detailsActivityMVP.DetailsActivity;
 import com.example.accentureandroidtask.util.CustomProgressDialog;
 import com.example.accentureandroidtask.util.MovableImageButton;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 
@@ -73,9 +77,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     List<WeatherDataEntity> savedTempList;
 
+    MenuItem item;
 
     @Inject
     AppDatabase mAppDatabase;
+
+    private Timer autoUpdate;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -114,6 +121,33 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        autoUpdate = new Timer();
+        autoUpdate.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    public void run() {
+                        updateWeatherData();
+                    }
+                });
+            }
+        }, 0, 60000); // updates each 60 secs
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void updateWeatherData(){
+        // your logic here
+        mainActivityPresenter.loadFeedsData(getApplicationContext(),false);
+        populateRecyclerView(savedTempList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+    }
+
+    @Override
     public void populateRecyclerView(List<WeatherDataEntity> response) {
         recyclerViewAdapter.setData(response);
     }
@@ -122,6 +156,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_items, menu);
+        item =menu.findItem(R.id.action_refresh);
+
         return true;
     }
 
@@ -131,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
         switch (item.getItemId()) {
             case R.id.action_save:
-                mainActivityPresenter.loadFeedsData(getApplicationContext());
+                mainActivityPresenter.loadFeedsData(getApplicationContext(),true);
                 // saveCurrentTemp(getApplicationContext());
 //                Log.d(TAG, "save buttonClicked: " + "DataBase message "+  savedTempList.get(0).getCity());
 //
@@ -211,6 +247,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public void showWeatherData(WeatherDataResponse mWeatherDataResponse) {
 //        mTemprature.setText("Temperature: "+mWeatherDataResponse.getMain().getTemp().toString());
 //        mDate.setText("Date: "+formatter.format(date));
+        double  temp= Math.round(mWeatherDataResponse.getMain().getTemp())-273.15;
+        String x= String.format(Locale.getDefault(), "%.0f°", temp);
+
+        item.setTitle(x+"C");
 
 
     }
@@ -258,9 +298,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     @Override
-    public void launchIntent(String url) {
-        Toast.makeText(activityContext, "RecyclerView Row selected " + url, Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(activityContext, DetailsActivity.class).putExtra("url", url));
+    public void launchIntent(WeatherDataEntity url) {
+//        Toast.makeText(activityContext, "RecyclerView Row selected " + url.getCity(), Toast.LENGTH_SHORT).show();
+        Intent mIntent=new Intent(activityContext, DetailsActivity.class);
+        mIntent.putExtra("city", url.getCity());
+        mIntent.putExtra("temp", (double)url.getTemperature());
+        mIntent.putExtra("weather", (int) url.getWeatherId());
+
+        mIntent.putExtra("date", url.getDate());
+        startActivity(mIntent);
         Animatoo.animateZoom(activityContext);
     }
 

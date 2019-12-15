@@ -61,10 +61,38 @@
     <color name="TransparentColor">#90000000</color>
     <color name="cellTxtColor">#E3E5E2</color>
 
-
+    <color name="overlay_dark_50">#40000000</color>
+    <color name="material_blue">#6452f0</color>
+    <color name="grey_10">#e6e6e6</color>
+    <color name="green_success">#155724</color>
+    <color name="colorPrimaryNight">#263238</color>
+    <color name="colorPrimaryDarkNight">#141d26</color>
+    <color name="scrim">#99323232</color>
     <color name="Splitter">#9e9e9e</color>
 
+    <color name="textColorHint">#d4d4d4</color>
 
+    <color name="colorAccentDark">#d84315</color>
+    <color name="windowBackground">#4db6ac</color>
+    <color name="swipe_red">#df5e65</color>
+    <color name="swipe_green">#42c25e</color>
+    <color name="swipe_blue">#4447da</color>
+    <color name="text_color">#302c2c</color>
+    <color name="settings_content_color">#000000</color>
+    <color name="divider_light">#ccc</color>
+    <color name="link_color">#0000FF</color>
+
+    <color name="widget_darkTheme_colorBackground">#fa202020</color>
+    <color name="widget_darkTheme_textColorPrimary">#FFFFFF</color>
+    <color name="widget_darkTheme_window_colorBackground">#009688</color>
+
+    <color name="widget_lightTheme_colorBackground">#f5e7e7e7</color>
+    <color name="widget_lightTheme_textColorPrimary">#000000</color>
+    <color name="widget_lightTheme_window_colorBackground">#009688</color>
+
+    <color name="widget_transparentTheme_colorBackground">#00e7e7e7</color>
+    <color name="widget_transparentTheme_textColorPrimary">#FFFFFF</color>
+    <color name="widget_transparentTheme_window_colorBackground">#00e7e7e7</color>
     <color name="CheckOut">#01d21d</color>
     <color name="AddItem">#cccccc</color>
     <color name="Black">#000000</color>

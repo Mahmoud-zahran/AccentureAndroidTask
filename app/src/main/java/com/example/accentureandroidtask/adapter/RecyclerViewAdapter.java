@@ -15,6 +15,7 @@ import com.example.accentureandroidtask.roomdatabase.entity.WeatherDataEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -35,7 +36,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.txtName.setText("Temperature: "+data.get(position).getTemperature()+"");
+        double  temp= Math.round(data.get(position).getTemperature())-273.15;
+        String x= String.format(Locale.getDefault(), "%.0f°", temp);
+        holder.txtName.setText("Temperature: "+x+"C");
         holder.txtBirthYear.setText("Date: "+data.get(position).getDate());
     }
 
@@ -60,14 +63,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickListener.launchIntent(data.get(getAdapterPosition()).getCity());
+                    clickListener.launchIntent(data.get(getAdapterPosition()));
                 }
             });
         }
     }
 
     public interface ClickListener {
-        void launchIntent(String filmName);
+        void launchIntent(WeatherDataEntity weatherDataEntity);
     }
 
     public void setData(List<WeatherDataEntity> data) {

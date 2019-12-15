@@ -2,22 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="100"
+        android:title=""
+        app:showAsAction="always"
+        android:visible="true"
+        />
+    <item
         android:id="@+id/action_save"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         android:icon="@drawable/baseline_save_white"
         app:showAsAction="always"
         android:visible="true"/>
-<!--
-    <item
-        android:id="@+id/action_refresh"
-        android:orderInCategory="100"
-        android:title="@string/action_refresh"
-        app:showAsAction="always" />
 
-    <item
-        android:id="@+id/action_clearCashe"
-        android:orderInCategory="100"
-        android:title="@string/action_clearCashe"
-        app:showAsAction="always" />-->
+
+    <!--
+        <item
+            android:id="@+id/action_clearCashe"
+            android:orderInCategory="100"
+            android:title="@string/action_clearCashe"
+            app:showAsAction="always" />-->
 </menu>

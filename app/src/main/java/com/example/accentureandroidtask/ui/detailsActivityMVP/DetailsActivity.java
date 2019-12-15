@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.accentureandroidtask.APIInterface;
 import com.example.accentureandroidtask.R;
@@ -18,7 +20,11 @@ import com.example.accentureandroidtask.daggerNeededFiles.qualifer.ActivityConte
 
 import com.example.accentureandroidtask.root.MyApplication;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
 
 public class DetailsActivity extends AppCompatActivity {
     DetailsActivityComponent detailsActivityComponent;
@@ -30,16 +36,26 @@ public class DetailsActivity extends AppCompatActivity {
     @ActivityContext
     public Context mContext;
 
-    TextView textView;
+    TextView cityText;
+    TextView dateText;
+
+    LottieAnimationView animationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        textView = findViewById(R.id.textView);
+        cityText = findViewById(R.id.temprature);
+        dateText = findViewById(R.id.date);
+        animationView= findViewById(R.id.animation_view);
 
-        String url = getIntent().getStringExtra("url");
+        String city = getIntent().getStringExtra("city");
+        double  temp= Math.round(getIntent().getDoubleExtra("temp",0))-273.15;
+
+        int weather = getIntent().getIntExtra("weather",0);
+        String date=getIntent().getStringExtra("date");
+        Log.d("DetailsActivity", "onCreate: "+weather);
 
         ApplicationComponent applicationComponent = MyApplication.get(this).getApplicationComponent();
         detailsActivityComponent = DaggerDetailsActivityComponent.builder()
@@ -48,12 +64,38 @@ public class DetailsActivity extends AppCompatActivity {
                 .build();
 
         detailsActivityComponent.injectDetailsActivity(this);
-        textView.setText(url);
+        cityText.setText(city);
+        String x= String.format(Locale.getDefault(), "%.0f°", temp);
+        dateText.setText(x+"C");
+        animationView.setAnimation(getWeatherAnimation(weather));
+        animationView.playAnimation();
 
     }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         Animatoo.animateSlideLeft(mContext);
+    }
+    public static int getWeatherAnimation(int weatherCode) {
+        if (weatherCode / 100 == 2) {
+            return R.raw.storm_weather;
+        } else if (weatherCode / 100 == 3) {
+            return R.raw.rainy_weather;
+        } else if (weatherCode / 100 == 5) {
+            return R.raw.rainy_weather;
+        } else if (weatherCode / 100 == 6) {
+            return R.raw.snow_weather;
+        } else if (weatherCode / 100 == 7) {
+            return R.raw.unknown;
+        } else if (weatherCode == 800) {
+            return R.raw.clear_day;
+        } else if (weatherCode == 801) {
+            return R.raw.few_clouds;
+        } else if (weatherCode == 803) {
+            return R.raw.broken_clouds;
+        } else if (weatherCode / 100 == 8) {
+            return R.raw.cloudy_weather;
+        }
+        return R.raw.unknown;
     }
 }
