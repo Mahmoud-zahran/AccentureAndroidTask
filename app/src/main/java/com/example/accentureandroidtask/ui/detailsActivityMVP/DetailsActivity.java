@@ -37,8 +37,10 @@ public class DetailsActivity extends AppCompatActivity {
     public Context mContext;
 
     TextView cityText;
-    TextView dateText;
-
+    TextView tempText;
+    TextView humidityText;
+    TextView windText;
+    TextView descriptionText;
     LottieAnimationView animationView;
 
     @Override
@@ -46,8 +48,11 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        cityText = findViewById(R.id.temprature);
-        dateText = findViewById(R.id.date);
+        cityText = findViewById(R.id.city);
+        tempText = findViewById(R.id.temp);
+        humidityText = findViewById(R.id.humidity);
+        windText = findViewById(R.id.wind);
+        descriptionText = findViewById(R.id.description);
         animationView= findViewById(R.id.animation_view);
 
         String city = getIntent().getStringExtra("city");
@@ -66,9 +71,21 @@ public class DetailsActivity extends AppCompatActivity {
         detailsActivityComponent.injectDetailsActivity(this);
         cityText.setText(city);
         String x= String.format(Locale.getDefault(), "%.0f°", temp);
-        dateText.setText(x+"C");
+        tempText.setText(x+"C");
         animationView.setAnimation(getWeatherAnimation(weather));
         animationView.playAnimation();
+        int humidity = getIntent().getIntExtra("humidity",0);
+        double windSpeed =getIntent().getDoubleExtra("windSpeed", 0);
+        String description=getIntent().getStringExtra("description");
+
+        humidityText.setText("Humidity  "+humidity);
+        descriptionText.setText(description);
+        windText.setText("Wind  "+windSpeed+ " km/h");
+
+
+
+
+
 
     }
     @Override

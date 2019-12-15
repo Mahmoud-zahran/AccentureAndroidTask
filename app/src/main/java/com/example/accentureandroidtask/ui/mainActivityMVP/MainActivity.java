@@ -36,6 +36,7 @@ import com.example.accentureandroidtask.roomdatabase.AppDatabase;
 import com.example.accentureandroidtask.roomdatabase.Executor;
 import com.example.accentureandroidtask.roomdatabase.entity.WeatherDataEntity;
 import com.example.accentureandroidtask.root.MyApplication;
+import com.example.accentureandroidtask.testCases.TestingActivity;
 import com.example.accentureandroidtask.ui.detailsActivityMVP.DetailsActivity;
 import com.example.accentureandroidtask.util.CustomProgressDialog;
 import com.example.accentureandroidtask.util.MovableImageButton;
@@ -137,6 +138,19 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         }, 0, 60000); // updates each 60 secs
     }
 
+    @Override
+    protected void onDestroy() {
+        autoUpdate.cancel();
+        super.onDestroy();
+
+    }
+
+    @Override
+    protected void onPause() {
+        autoUpdate.cancel();
+        super.onPause();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void updateWeatherData(){
         // your logic here
@@ -174,7 +188,25 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 //                 Log.d(TAG, "save buttonClicked: " + "DataBase message"+  city);
 //                mAppDatabase.weatherDao().getAll().get(0);
                 return true;
+            case R.id.action_clearCashe:
+                Executor.IOThread(() ->{
 
+                    mAppDatabase.weatherDao().deleteAll();
+                    savedTempList = mAppDatabase.weatherDao().getAll();
+
+                });
+
+                recyclerViewAdapter.setData(new ArrayList<WeatherDataEntity>());
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                recyclerView.setAdapter(recyclerViewAdapter);
+                Toast.makeText(getApplicationContext(), "All weather data Deleted.", Toast.LENGTH_LONG).show();
+
+                return true;
+            case R.id.action_test:
+                Intent mIntent= new Intent(MainActivity.this, TestingActivity.class);
+                startActivity(mIntent);
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -185,10 +217,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     public void showError(String call, String statusMessage) {
         if (call.equals("network error")) {
             Log.d(TAG, "showError:network error " + statusMessage);
-            Toast.makeText(context, statusMessage, Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(context, statusMessage, Toast.LENGTH_SHORT).show();
         } else {
             Log.d(TAG, "showError: " + "error message");
-            Toast.makeText(context, "error message", Toast.LENGTH_SHORT).show();
+      //      Toast.makeText(context, "error message", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -233,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     public void hideProgress() {
         mCustomProgressDialog.dismiss();
-        mCustomProgressDialog = null;
+//        mCustomProgressDialog = null;
         Log.d(TAG, "hideProgress: " + "hideProgress message");
     }
 
@@ -269,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
             savedTempList = mAppDatabase.weatherDao().getAll();
         });
         Log.d("presenter", "save buttonClicked: " + "DataBase message " + mainActivityPresenter.mWeatherDataEntity.getCity());
-        Toast.makeText(context, "Your Location is " + mainActivityPresenter.mWeatherDataEntity.getCity(), Toast.LENGTH_LONG).show();
+     //   Toast.makeText(context, "Your Location is " + mainActivityPresenter.mWeatherDataEntity.getCity(), Toast.LENGTH_LONG).show();
         populateRecyclerView(savedTempList);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -298,14 +330,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     @Override
-    public void launchIntent(WeatherDataEntity url) {
+    public void launchIntent(WeatherDataEntity mWeatherDataEntity) {
 //        Toast.makeText(activityContext, "RecyclerView Row selected " + url.getCity(), Toast.LENGTH_SHORT).show();
         Intent mIntent=new Intent(activityContext, DetailsActivity.class);
-        mIntent.putExtra("city", url.getCity());
-        mIntent.putExtra("temp", (double)url.getTemperature());
-        mIntent.putExtra("weather", (int) url.getWeatherId());
-
-        mIntent.putExtra("date", url.getDate());
+        mIntent.putExtra("city", mWeatherDataEntity.getCity());
+        mIntent.putExtra("temp", (double)mWeatherDataEntity.getTemperature());
+        mIntent.putExtra("weather", (int) mWeatherDataEntity.getWeatherId());
+        mIntent.putExtra("description", mWeatherDataEntity.getDescription());
+        mIntent.putExtra("humidity", mWeatherDataEntity.getHumidity());
+        mIntent.putExtra("windSpeed", mWeatherDataEntity.getWindSpeed());
+        mIntent.putExtra("windDeg", mWeatherDataEntity.getWindDeg());
+        mIntent.putExtra("date", mWeatherDataEntity.getDate());
         startActivity(mIntent);
         Animatoo.animateZoom(activityContext);
     }

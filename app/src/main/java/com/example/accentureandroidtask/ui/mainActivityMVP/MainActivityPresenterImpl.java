@@ -29,6 +29,7 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
 
 
     private MainActivityContract.View mView;
+
     APIInterface apiInterface;
     GPSTracker gps;
     WeatherDataEntity mWeatherDataEntity;
@@ -86,6 +87,10 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
                         mWeatherDataEntity.setTemperature(data.getMain().getTemp());
                         mWeatherDataEntity.setDate(formatter.format(date));
                         mWeatherDataEntity.setWeatherId(data.getWeather().get(0).getId());
+                        mWeatherDataEntity.setHumidity(data.getMain().getHumidity());
+                        mWeatherDataEntity.setDescription(data.getWeather().get(0).getDescription());
+                        mWeatherDataEntity.setWindSpeed(data.getWind().getSpeed());
+                        mWeatherDataEntity.setWindDeg(data.getWind().getDeg());
                         //     Executor.IOThread(() -> BaseDao.insert((WeatherDataEntity)mainActivityPresenter.mWeatherDataEntity);
 
                         if (save) {
@@ -94,7 +99,7 @@ public class MainActivityPresenterImpl implements MainActivityContract.Presenter
                         }else{
                             mView.showWeatherData(data);
                             Log.d("presenter", "save buttonClicked: " + "DataBase message " + data.getName());
-                            Toast.makeText(context, "Your Location is " + data.getName(), Toast.LENGTH_LONG).show();
+              //              Toast.makeText(context, "Your Location is " + data.getName(), Toast.LENGTH_LONG).show();
 
                         }
                         mView.hideProgress();

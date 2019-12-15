@@ -8,46 +8,53 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.accentureandroidtask.APIInterface;
+import com.example.accentureandroidtask.ApiUrls;
 import com.example.accentureandroidtask.R;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
+import com.example.accentureandroidtask.daggerNeededFiles.component.ApplicationComponent;
+import com.example.accentureandroidtask.daggerNeededFiles.component.DaggerTestingActivityComponent;
+import com.example.accentureandroidtask.daggerNeededFiles.component.TestingActivityComponent;
+import com.example.accentureandroidtask.daggerNeededFiles.module.DatabaseModule;
+import com.example.accentureandroidtask.daggerNeededFiles.module.DetailsActivityContextModule;
+import com.example.accentureandroidtask.daggerNeededFiles.module.RetrofitModule;
+import com.example.accentureandroidtask.daggerNeededFiles.module.TestingActivityContextModule;
+import com.example.accentureandroidtask.pojo.WeatherDataResponse;
+import com.example.accentureandroidtask.root.MyApplication;
 
-import java.lang.reflect.Type;
+import java.util.Locale;
+
+import javax.inject.Inject;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class TestingActivity extends AppCompatActivity {
     private EditText txtResult;
     private EditText txtSummery;
 
+    @Inject
+    APIInterface apiInterface;
+
     private int lineIndex = 0;
-    private int counterForHundler = 0;
-    private int showSpeed = 20;
-    private int countImageComeFromNet = 0;
-    private int countImageComeFromCashe = 0;
-    private int countJsonComeFromNet = 0;
-    private int countJsonComeFromCashe = 0;
+    int i = 0;
+
+    private int countsuccess = 0;
     private int countCanceled = 0;
     private int countFailure = 0;
 
     private Handler mHandler = new Handler();
-    private String[] urlsImageArray =
+    private double[] latitudelist =
             {
-                    "https://images.unsplash.com/profile-1464495186405-68089dcd96c3?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=32&w=32&s=63f1d805cffccb834cf839c719d91702",
-                    "https://images.unsplash.com/profile-1464495186405-68089dcd96c3?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=64&w=64&s=ef631d113179b3137f911a05fea56d23",
-                    "https://images.unsplash.com/profile-1464495186405-68089dcd96c3?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=128&w=128&s=622a88097cf6661f84cd8942d851d9a2",
-                    "https://images.unsplash.com/profile-1464495186405-68089dcd96c3?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=64&w=64&s=ef631d113179b3137f911a05fea56d23",
-                    "https://images.unsplash.com/profile-1464495186405-68089dcd96c3?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=64&w=64&s=ef631d113179b3137f911a05fea56d23",
-                    "https://images.unsplash.com/profile-1464495186405-68089dcd96c3?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=32&w=32&s=63f1d805cffccb834cf839c719d91702"
-            };
-    private String[] urlsJsonArray =
+                    35.37,10.6666,51.11111,19.5679,66.77777
+                   };
+    private double [] longituidelist =
             {
-                    "http://ip.jsontest.com/",
-                    "http://pastebin.com/raw/wgkJgazE",
-                    "http://pastebin.com/raw/wgkJgazE"
+                    -33.2344,19.18181,22.333,-13.19991,10.022777
             };
 
 
@@ -58,6 +65,16 @@ public class TestingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_testing);
         txtResult = (EditText) findViewById(R.id.txtResult);
         txtSummery = (EditText) findViewById(R.id.txtSummery);
+        TestingActivityComponent testActivityComponent;
+        ApplicationComponent applicationComponent = MyApplication.get(this).getApplicationComponent();
+        testActivityComponent = DaggerTestingActivityComponent.builder()
+                .testingActivityContextModule(new TestingActivityContextModule(this))
+            //    .retrofitModule(new RetrofitModule(this))
+                .applicationComponent(applicationComponent)
+                .build();
+       testActivityComponent.injectTestingActivity(this);
+        runTestCode();
+
 
 
     }
@@ -75,43 +92,56 @@ public class TestingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_refresh) {
-            Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
-            txtResult.setText("");
-            lineIndex = 0;
-            counterForHundler = 0;
-            countImageComeFromCashe = 0;
-            countImageComeFromNet = 0;
-            countJsonComeFromNet = 0;
-            countJsonComeFromCashe = 0;
-            countCanceled = 0;
-            countFailure = 0;
-            runTestCode();
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    runTestCode();
-                }
-            }, 1000);
 
-            return true;
-        } else if (id == R.id.action_clearCashe) {
-
-            Toast.makeText(this, "Cache Cleared", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-*/
         return super.onOptionsItemSelected(item);
     }
 
     private void runTestCode() {
+        txtResult.setText("test data static latitude and longitude\n");
+        for (i=0; i<latitudelist.length;i++) {
+            apiInterface.getApiDataByLatLong(latitudelist[i]+ "", longituidelist[i] + "", ApiUrls.appkey).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<WeatherDataResponse>() {
+                        @Override
+                        public void onComplete() {
+                            txtResult.append("********************\n OnStart Call\n"+
+                                    "\nlatitude: "  + latitudelist[i-1]+"\nlongitude: "+ longituidelist[i-1]+"\n");
+
+                        }
+
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(WeatherDataResponse data) {
+
+                            double  temp= Math.round(data.getMain().getTemp())-273.15;
+                            String x= String.format(Locale.getDefault(), "%.0f°", temp);
+                            txtResult.append("city: "+data.getName()+"\ntemperature: "+ x+"C\n");
+                            Log.d("weather data", "onNext: " + data.getMain().getTemp().toString());
+
+                            countsuccess++;
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            txtResult.setText(e.getMessage());
+                            countFailure++;
+                        }
+                    });
+            logInEditText("test\n");
+        }
+
+
 
 
     }
 
     private void logInEditText(final String msg) {
-        counterForHundler++;
+
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -119,31 +149,14 @@ public class TestingActivity extends AppCompatActivity {
                     txtResult.append(lineIndex++ + ": " + msg);
                 else
                     txtResult.append("\n" + lineIndex++ + ": " + msg);
-                txtSummery.setText("Image From Net: " + countImageComeFromNet);
-                txtSummery.append("\nImage From Cashe: " + countImageComeFromCashe);
-                txtSummery.append("\nJson From Net: " + countJsonComeFromNet);
-                txtSummery.append("\nJson From Cache: " + countJsonComeFromCashe);
+
+                txtSummery.setText("\nsuccess: " + countsuccess);
                 txtSummery.append("\nCanceled: " + countCanceled);
                 txtSummery.append("\nFailure: " + countFailure);
             }
-        }, counterForHundler * showSpeed);
+        }, 10000);
 
     }
 
-
-
-    public class IPClass {
-        @SerializedName("ip")
-        @Expose
-        private String ip;
-
-        public String getIp() {
-            return ip;
-        }
-
-        public void setIp(String ip) {
-            this.ip = ip;
-        }
-    }
 
 }

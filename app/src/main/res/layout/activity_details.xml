@@ -26,15 +26,7 @@
             android:background="@color/material_blue"
 
             android:orientation="horizontal">
-            <!-- <ImageView
-                 android:id="@+id/AR_ImageView"
-                 android:layout_width="60dp"
-                 android:layout_height="60dp"
-                 android:layout_alignParentLeft="true"
-                 android:layout_alignParentTop="true"
-                 android:layout_marginLeft="3dp"
-                 android:layout_marginTop="3dp"
-                 android:src="@drawable/ic_launcher_foreground" />-->
+
             <LinearLayout
                 android:id="@+id/AR_LinearLayout"
                 android:layout_width="match_parent"
@@ -45,316 +37,115 @@
                 android:layout_marginTop="3dp"
                 android:background="@color/material_blue"
 
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/temprature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@color/material_blue"
+                android:orientation="horizontal"></LinearLayout>
 
-                    android:text="Temperature: "
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/AR_LinearLayout"
+                android:layout_above="@+id/description"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="3dp"
-                android:orientation="horizontal"
-                >
+                android:layout_marginBottom="23dp"
+                android:orientation="vertical">
+
                 <TextView
-                    android:id="@+id/date"
+                    android:id="@+id/temp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date: "
-                    android:maxLines="1"
+                    android:layout_gravity="center"
                     android:layout_weight="4"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="Temp: "
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/white"
+
+                    android:textSize="30dp" />
+
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/animation_view"
+                android:layout_marginBottom="78dp"
+                android:text="clear data"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+            <LinearLayout
+                android:layout_width="165dp"
+                android:layout_height="90dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="80dp"
+                android:layout_toStartOf="@+id/animation_view"
+                android:layout_toLeftOf="@+id/animation_view"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/humidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:maxLines="1"
+                    android:text="Humidity: "
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/white"
 
                     android:textSize="15dp" />
 
-
-                <!--<TextView
-                    android:id="@+id/AR_DateTextView"
+                <TextView
+                    android:id="@+id/wind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="More Details"
+                    android:layout_weight="4"
+                    android:maxLines="1"
+                    android:text="Wind: "
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#777575"
-                    android:textSize="12dp" />-->
+                    android:textColor="@color/white"
+
+                    android:textSize="15dp" />
             </LinearLayout>
+
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animation_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="162dp"
+                android:layout_height="203dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginBottom="4dp"
                 android:layout_weight="1"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true" />
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="49dp"
+                android:layout_weight="2"
+                android:background="@color/material_blue"
+                android:text="city: "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>
-<!--
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nested_scroll_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="80dp"
-    android:visibility="gone"
-    tools:visibility="visible">
-<androidx.cardview.widget.CardView
-    style="@style/Widget.MaterialComponents.CardView"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/card_view_height"
-    android:layout_marginStart="@dimen/spacing_mlarge"
-    android:layout_marginEnd="@dimen/spacing_mlarge"
-    app:cardBackgroundColor="@color/material_blue"
-    app:cardCornerRadius="30dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/spacing_medium">
-
-        <TextView
-            android:id="@+id/temp_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layoutDirection="ltr" />
-
-        <TextView
-            android:id="@+id/description_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:orientation="horizontal"
-            tools:ignore="RtlCompat">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/spacing_middle">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/TextViewInColoredCard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/humidity_label"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="@dimen/spacing_medium"
-                        android:layout_height="0dp" />
-
-                    <TextView
-                        android:id="@+id/humidity_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/spacing_middle">
-
-                    <TextView
-                        style="@style/TextViewInColoredCard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/wind_label"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="@dimen/spacing_medium"
-                        android:layout_height="0dp" />
-
-                    <TextView
-                        android:id="@+id/wind_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center" />
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animation_view"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true" />
-
-        </LinearLayout>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
-</LinearLayout>
-    &lt;!&ndash;
-    <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/nested_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/current_label"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                android:textColor="@color/material_blue"
-                android:textStyle="bold" />
-
-            <androidx.cardview.widget.CardView
-                style="@style/Widget.MaterialComponents.CardView"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/card_view_height"
-                android:layout_marginStart="@dimen/spacing_mlarge"
-                android:layout_marginEnd="@dimen/spacing_mlarge"
-                app:cardBackgroundColor="@color/material_blue"
-                app:cardCornerRadius="30dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="@dimen/spacing_medium">
-
-                    <TextView
-                        android:id="@+id/temp_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layoutDirection="ltr" />
-
-                    <TextView
-                        android:id="@+id/description_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_large"
-                        android:orientation="horizontal"
-                        tools:ignore="RtlCompat">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="@dimen/spacing_middle">
-
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    style="@style/TextViewInColoredCard"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="@string/humidity_label"
-                                    android:textStyle="bold" />
-
-                                <View
-                                    android:layout_width="@dimen/spacing_medium"
-                                    android:layout_height="0dp" />
-
-                                <TextView
-                                    android:id="@+id/humidity_text_view"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="@dimen/spacing_middle">
-
-                                <TextView
-                                    style="@style/TextViewInColoredCard"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="@string/wind_label"
-                                    android:textStyle="bold" />
-
-                                <View
-                                    android:layout_width="@dimen/spacing_medium"
-                                    android:layout_height="0dp" />
-
-                                <TextView
-                                    android:id="@+id/wind_text_view"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/animation_view"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            app:lottie_autoPlay="true"
-                            app:lottie_loop="true" />
-
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="@dimen/spacing_large" />
-
-        </LinearLayout>
-    </LinearLayout>
-    &ndash;&gt;
--->

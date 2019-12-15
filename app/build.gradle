@@ -96,4 +96,5 @@ dependencies {
 
 
     implementation 'com.victor:lib:1.0.4'
+    androidTestImplementation 'androidx.test:rules:1.2.0-beta01'
 }

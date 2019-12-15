@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 @Entity(tableName = "TB_Weather")
@@ -28,9 +31,51 @@ public class WeatherDataEntity implements Serializable {
     @ColumnInfo(name = "date")
     public String date;
 
+    @ColumnInfo(name = "description")
+    public String description;
+
     @ColumnInfo(name = "weatherId")
     private int weatherId;
 
+    @ColumnInfo(name = "windSpeed")
+    private Double windSpeed;
+
+    @ColumnInfo(name = "windDeg")
+    private Integer windDeg;
+    @ColumnInfo(name = "humidity")
+    private Integer humidity;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(Double windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
+    public Integer getWindDeg() {
+        return windDeg;
+    }
+
+    public void setWindDeg(Integer windDeg) {
+        this.windDeg = windDeg;
+    }
+
+    public Integer getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(Integer humidity) {
+        this.humidity = humidity;
+    }
 
     public int getWeatherId() {
         return weatherId;

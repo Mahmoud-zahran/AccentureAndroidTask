@@ -15,12 +15,15 @@
         android:icon="@drawable/baseline_save_white"
         app:showAsAction="always"
         android:visible="true"/>
+    <item
+        android:id="@+id/action_test"
+        android:orderInCategory="100"
+        android:title="@string/action_Test"
+        app:showAsAction="never" />
 
-
-    <!--
         <item
             android:id="@+id/action_clearCashe"
             android:orderInCategory="100"
             android:title="@string/action_clearCashe"
-            app:showAsAction="always" />-->
+            app:showAsAction="never" />
 </menu>

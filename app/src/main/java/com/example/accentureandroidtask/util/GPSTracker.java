@@ -197,7 +197,7 @@ public class GPSTracker extends Service implements LocationListener {
 
         double lat = location.getLatitude();
         double longi = location.getLongitude();
-        Toast.makeText(mContext, "My Location is \n" + lat + "\n" + longi, Toast.LENGTH_SHORT);
+     //   Toast.makeText(mContext, "My Location is \n" + lat + "\n" + longi, Toast.LENGTH_SHORT);
         getLocation();
 
     }
