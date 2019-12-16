@@ -1,5 +1,6 @@
 # Weather Logger
 Accenture Latvia Android Task
+
 The **Weather logger** application used to can log and save your current Weather data based on your location. 
 
 
