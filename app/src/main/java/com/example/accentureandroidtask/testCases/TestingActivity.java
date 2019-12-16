@@ -48,13 +48,13 @@ public class TestingActivity extends AppCompatActivity {
     private int countFailure = 0;
 
     private Handler mHandler = new Handler();
-    private double[] latitudelist =
+    private String[] latitudelist =
             {
-                    35.37,10.6666,51.11111,19.5679,66.77777
+                    "35.37","10.6666","51.11111","19.5679","66.77777","0","","10.1010"
                    };
-    private double [] longituidelist =
+    private String [] longituidelist =
             {
-                    -33.2344,19.18181,22.333,-13.19991,10.022777
+                    "-33.2344","19.18181","22.333","-13.19991","10.022777","0","10.00100",""
             };
 
 
