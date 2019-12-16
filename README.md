@@ -1,5 +1,7 @@
 # Weather Logger
 Accenture Latvia Android Task
+The **Weather logger** application used to can log and save your current Weather data based on your location. 
+
 
 **Description:**
 Create an Android application to save weather conditions for your current location.
@@ -59,7 +61,7 @@ provider or other solutions
 
 ● Use Kotlin instead of Java for MainActivity
 
-
+______________________________________________________________________________
 
 **Architecture & Libraries & Dependencies** used to do that task:
 
@@ -86,6 +88,10 @@ Ui Testing using [Espresso](https://developer.android.com/training/testing/espre
 [Android Home Widget](https://developer.android.com/guide/topics/appwidgets) 
 
 [google play services](https://developers.google.com/android/guides/setup) location to get current location
+
+________________________________________________________________________________________
+
+**The Following screen shoots for app**
 
 ![Home Screen](https://github.com/Mahmoud-zahran/AccentureAndroidTask/blob/master/Screen%20Shot%202019-12-16%20at%208.34.46%20PM.png)
 ![Details Screen](https://github.com/Mahmoud-zahran/AccentureAndroidTask/blob/master/Screen%20Shot%202019-12-16%20at%208.35.54%20PM.png)
