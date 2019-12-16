@@ -86,3 +86,8 @@ Ui Testing using [Espresso](https://developer.android.com/training/testing/espre
 [Android Home Widget](https://developer.android.com/guide/topics/appwidgets) 
 
 [google play services](https://developers.google.com/android/guides/setup) location to get current location
+
+![Home Screen](https://github.com/Mahmoud-zahran/AccentureAndroidTask/blob/master/Screen%20Shot%202019-12-16%20at%208.34.46%20PM.png)
+![Details Screen](https://github.com/Mahmoud-zahran/AccentureAndroidTask/blob/master/Screen%20Shot%202019-12-16%20at%208.35.54%20PM.png)
+![test and clear](https://github.com/Mahmoud-zahran/AccentureAndroidTask/blob/master/Screen%20Shot%202019-12-16%20at%208.36.19%20PM.png)
+![Test screen](https://github.com/Mahmoud-zahran/AccentureAndroidTask/blob/master/Screen%20Shot%202019-12-16%20at%208.36.44%20PM.png)
